@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { SignupInput } from './input/signupInput';
+import { confirmEmailLink } from '../utils/confirmEmailLink';
+import { sendEmail } from '../utils/sendEmail';
+
 import { ErrorResponse } from './shared/errorResponse';
 import { UserRepository } from './user.repository';
+import { SignupInput } from './input/signupInput';
 
 @Injectable()
 export class UserService {
@@ -12,11 +15,11 @@ export class UserService {
   ) {}
 
   async signup(signupInput: SignupInput): Promise<ErrorResponse[] | null> {
-    const userExist = await this.userRepo.findOne({
+    const userExists = await this.userRepo.findOne({
       where: { email: signupInput.email },
     });
 
-    if (userExist) {
+    if (userExists) {
       return [
         {
           path: 'email',
@@ -25,7 +28,10 @@ export class UserService {
       ];
     }
 
-    await this.userRepo.save({ ...signupInput });
+    const user = await this.userRepo.save({ ...signupInput });
+
+    await sendEmail(signupInput.email, await confirmEmailLink(user.id));
+
     return null;
   }
 }
