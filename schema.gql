@@ -3,6 +3,23 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type ErrorResponse {
+  path: String!
+  message: String!
+}
+
+type Mutation {
+  signup(signupInput: SignupInput!): [ErrorResponse!]
+}
+
 type Query {
   hello: String!
+}
+
+"""Signup Input"""
+input SignupInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
 }
