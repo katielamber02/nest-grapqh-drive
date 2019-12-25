@@ -22,4 +22,7 @@ export class User {
 
   @Column({ nullable: true })
   fbId: string;
+
+  @Column({ default: false })
+  confirmed: boolean;
 }

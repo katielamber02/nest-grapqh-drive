@@ -1,21 +1,32 @@
-import { Query, Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { MyContext } from 'src/types/myContext';
+import { LoginInput } from './input/loginInput';
 import { SignupInput } from './input/signupInput';
-import { UserService } from './user.service';
 import { ErrorResponse } from './shared/errorResponse';
 import { User } from './user.entity';
+import { UserService } from './user.service';
 
-@Resolver('User')
+@Resolver(User)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Query(() => String)
   async hello() {
-    return 'Hello world my string';
+    return 'hello world';
   }
+
   @Mutation(() => [ErrorResponse], { nullable: true })
   async signup(
     @Args('signupInput') signupInput: SignupInput,
   ): Promise<ErrorResponse[] | null> {
     return this.userService.signup(signupInput);
+  }
+
+  @Mutation(() => [ErrorResponse], { nullable: true })
+  async login(
+    @Args('loginInput') loginInput: LoginInput,
+    @Context() ctx: MyContext,
+  ): Promise<ErrorResponse[] | null> {
+    return this.userService.login(loginInput, ctx.req);
   }
 }

@@ -9,7 +9,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: 'uber',
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   synchronize: true,
-  dropSchema: true,
-  logging: true,
+  logging: false,
   subscribers: [__dirname + '/../subscribers/*.subscriber{.ts,.js}'],
 };
