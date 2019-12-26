@@ -11,6 +11,7 @@ import { SignupInput } from './input/signupInput';
 import { errorMessage } from './shared/errorMessage';
 import { ErrorResponse } from './shared/errorResponse';
 import { UserRepository } from './user.repository';
+import { MyContext } from '../types/myContext';
 
 @Injectable()
 export class UserService {
@@ -20,12 +21,12 @@ export class UserService {
   ) {}
 
   async signup(signupInput: SignupInput): Promise<ErrorResponse[] | null> {
-    const userExists = await this.userRepo.findOne({
+    const userExit = await this.userRepo.findOne({
       where: { email: signupInput.email },
     });
-    console.log(userExists, 'userExists');
+    console.log(userExit, 'userExist');
 
-    if (userExists) {
+    if (userExit) {
       return errorMessage('email', 'invalid email or password');
     }
 
@@ -64,8 +65,16 @@ export class UserService {
     if (!checkPassword) {
       return errorMessage('email', 'invalid email or password');
     }
-    console.log('REQ_SESSION:', req.session);
     req.session.userId = user.id;
     return null;
+  }
+
+  async logout(ctx: MyContext) {
+    await ctx.req.session.destroy(err => {
+      console.log(err);
+      return false;
+    });
+    await ctx.res.clearCookie('uber');
+    return true;
   }
 }

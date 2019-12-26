@@ -12,12 +12,14 @@ console.log('MY_API_KEY:', process.env.SENDGRID_API_KEY);
 
 async function bootstrap() {
   const RedisStore = Store(session);
-  const app = await NestFactory.create(AppModule);
 
+  const app = await NestFactory.create(AppModule);
+  // server settings: "request.credentials":"include" to show cookies !!!!
   app.use(
     session({
-      store: new RedisStore({ client: redis as any }),
-
+      store: new RedisStore({
+        client: redis as any,
+      }),
       name: 'uber',
       secret: SESSION_SECRET,
       resave: false,
@@ -25,6 +27,7 @@ async function bootstrap() {
       cookie: {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
+
         maxAge: 1000 * 60 * 60 * 24 * 365,
       },
     }),

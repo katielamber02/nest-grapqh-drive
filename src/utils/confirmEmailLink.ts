@@ -1,7 +1,6 @@
 import { v4 } from 'uuid';
-
+import { CONFIRM_EMAIL_PREFIX } from '../../constants';
 import { redis } from '../redis';
-import { CONFIRM_EMAIL_PREFIX } from './../../constants';
 
 export const confirmEmailLink = async (userId: string) => {
   const id = v4();
