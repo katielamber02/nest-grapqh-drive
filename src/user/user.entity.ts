@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import Chat from './../chat/chat.entity';
+import Message from './../message/message.entity';
 
 @Entity('users')
 export class User {
@@ -25,4 +27,22 @@ export class User {
 
   @Column({ default: false })
   confirmed: boolean;
+
+  @OneToMany(
+    () => Chat,
+    chat => chat.passenger,
+  )
+  chatsAsPassenger: Chat[];
+
+  @OneToMany(
+    () => Chat,
+    chat => chat.passenger,
+  )
+  chatsAsDriver: Chat[];
+
+  @OneToMany(
+    () => Message,
+    message => message.user,
+  )
+  messages: Message[];
 }
