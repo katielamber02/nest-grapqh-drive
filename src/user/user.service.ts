@@ -21,12 +21,12 @@ export class UserService {
   ) {}
 
   async signup(signupInput: SignupInput): Promise<ErrorResponse[] | null> {
-    const userExit = await this.userRepo.findOne({
+    const userExists = await this.userRepo.findOne({
       where: { email: signupInput.email },
     });
-    console.log(userExit, 'userExist');
+    console.log(userExists, 'userExists');
 
-    if (userExit) {
+    if (userExists) {
       return errorMessage('email', 'invalid email or password');
     }
 
