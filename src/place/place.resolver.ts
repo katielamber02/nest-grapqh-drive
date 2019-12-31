@@ -31,5 +31,11 @@ export class PlaceResolver {
   ): Promise<Boolean> {
     return this.placeService.createPlace(userId, name, lat, lng, address);
   }
+
+  @Query(() => [Place])
+  @UseGuards(AuthGuard)
+  async myPlaces(@GetUserId() userId: string): Promise<Place[]> {
+    return this.placeService.myPlaces(userId);
+  }
 }
 // input to refactor

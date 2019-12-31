@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { PlaceRepository } from './place.repository';
 import { InjectRepository } from '@nestjs/typeorm';
+import Place from './place.entity';
 
 @Injectable()
 export class PlaceService {
@@ -25,5 +26,11 @@ export class PlaceService {
     });
     console.log('PLACE:', place);
     return true;
+  }
+
+  async myPlaces(userId: string): Promise<Place[]> {
+    const places = await this.placeRepo.find({ where: { userId } });
+    console.log(places);
+    return places;
   }
 }

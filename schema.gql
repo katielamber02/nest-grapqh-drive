@@ -18,7 +18,7 @@ type Mutation {
   signup(signupInput: SignupInput!): [ErrorResponse!]
   login(loginInput: LoginInput!): [ErrorResponse!]
   logout: Boolean!
-  createPoll(name: String!, lat: Float!, lng: Float!, address: String!): Boolean!
+  createPlace(name: String!, lat: Float!, lng: Float!, address: String!): Boolean!
 }
 
 type Place {
@@ -34,6 +34,7 @@ type Place {
 type Query {
   hello: String!
   getProfile: User!
+  myPlaces: [Place!]!
 }
 
 """Signup Input"""
