@@ -12,6 +12,7 @@ import { errorMessage } from './shared/errorMessage';
 import { ErrorResponse } from './shared/errorResponse';
 import { UserRepository } from './user.repository';
 import { MyContext } from '../types/myContext';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
@@ -31,7 +32,9 @@ export class UserService {
     }
 
     const user = await this.userRepo.save({ ...signupInput });
-    await sendEmail(signupInput.email, await confirmEmailLink(user.id));
+    // UNCOMMENT
+    // await sendEmail(signupInput.email, await confirmEmailLink(user.id));
+    console.log('USER', user);
     return null;
   }
 
@@ -76,5 +79,14 @@ export class UserService {
     });
     await ctx.res.clearCookie('uber');
     return true;
+  }
+  async getProfile(userId: string): Promise<User> {
+    // console.log('MY ID:', userId);
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+    });
+    console.log('User from getProfile:', user);
+
+    return user;
   }
 }

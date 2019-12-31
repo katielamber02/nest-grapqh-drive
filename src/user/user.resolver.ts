@@ -5,6 +5,9 @@ import { SignupInput } from './input/signupInput';
 import { ErrorResponse } from './shared/errorResponse';
 import { User } from './user.entity';
 import { UserService } from './user.service';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from './aurh.guard';
+import { GetUserId } from './getUserId.decorator';
 
 @Resolver(User)
 export class UserResolver {
@@ -33,5 +36,11 @@ export class UserResolver {
   @Mutation(() => Boolean)
   async logout(@Context() ctx: MyContext) {
     return this.userService.logout(ctx);
+  }
+
+  @Query(() => User)
+  @UseGuards(AuthGuard)
+  async getProfile(@GetUserId() userId: string): Promise<User> {
+    return this.userService.getProfile(userId);
   }
 }
