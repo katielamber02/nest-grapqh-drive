@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import Chat from './../chat/chat.entity';
 import Message from './../message/message.entity';
 import { ObjectType, Field } from 'type-graphql';
+import Place from './../place/place.entity';
 
 @ObjectType()
 @Entity('users')
@@ -55,4 +56,10 @@ export class User {
     message => message.user,
   )
   messages: Message[];
+
+  @OneToMany(
+    () => Place,
+    places => places.user,
+  )
+  places: Place[];
 }

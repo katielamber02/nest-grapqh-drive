@@ -18,6 +18,17 @@ type Mutation {
   signup(signupInput: SignupInput!): [ErrorResponse!]
   login(loginInput: LoginInput!): [ErrorResponse!]
   logout: Boolean!
+  createPoll(name: String!, lat: Float!, lng: Float!, address: String!): Boolean!
+}
+
+type Place {
+  id: Float!
+  name: String!
+  lat: Float!
+  lng: Float!
+  address: String!
+  isFav: Boolean!
+  userId: String!
 }
 
 type Query {

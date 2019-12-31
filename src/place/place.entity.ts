@@ -5,29 +5,47 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { User } from './../user/user.entity';
+import { ObjectType, Field } from 'type-graphql';
 
+@ObjectType()
 @Entity()
 class Place extends BaseEntity {
-  @PrimaryGeneratedColumn() id: number;
+  @Field()
+  @PrimaryGeneratedColumn()
+  id: number;
 
+  @Field()
   @Column()
   name: string;
 
-  @Column()
+  @Field()
+  @Column({ type: 'double precision', default: 0 })
   lat: number;
 
-  @Column()
+  @Field()
+  @Column({ type: 'double precision', default: 0 })
   lng: number;
 
+  @Field()
   @Column()
   address: string;
 
-  @Column()
+  @Field()
+  @Column({ type: 'boolean', default: false })
   isFav: boolean;
 
+  @Field()
   @Column()
-  userId: number;
+  userId: string;
+
+  @ManyToOne(
+    () => User,
+    user => user.places,
+  )
+  user: User;
 
   @CreateDateColumn() createdAt: string;
 
