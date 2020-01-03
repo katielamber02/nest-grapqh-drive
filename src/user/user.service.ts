@@ -13,6 +13,8 @@ import { ErrorResponse } from './shared/errorResponse';
 import { UserRepository } from './user.repository';
 import { MyContext } from '../types/myContext';
 import { User } from './user.entity';
+import { Between } from 'typeorm';
+import { UpdateMyProfileArgs } from './input/updateProfileArgs';
 
 @Injectable()
 export class UserService {
@@ -110,6 +112,37 @@ export class UserService {
     user.lastLng = lng;
     user.lastOrientation = orientation;
 
+    await this.userRepo.save(user);
+    return user;
+  }
+  async getNearbyDrivers(userId: string): Promise<User[]> {
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+    });
+    const { lastLat, lastLng } = user;
+    const drivers = await this.userRepo.find({
+      isDriving: true,
+      lastLat: Between(lastLat + 0.5, lastLat - 0.5),
+      lastLng: Between(lastLng + 0.5, lastLng - 0.5),
+    });
+    return drivers;
+  }
+
+  async updateProfile(
+    userId: string,
+    updateProfileArgs: UpdateMyProfileArgs,
+  ): Promise<User> {
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+    });
+    user.firstName = updateProfileArgs.firstName;
+    user.lastName = updateProfileArgs.lastName;
+    user.age = updateProfileArgs.age;
+    user.password = updateProfileArgs.password;
+    user.email = updateProfileArgs.email;
+    user.profilePhoto = updateProfileArgs.profilePhoto;
+    console.log('USER_PROFILE:', user);
+    // update in DB
     await this.userRepo.save(user);
     return user;
   }

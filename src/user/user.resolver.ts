@@ -9,6 +9,7 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from './aurh.guard';
 import { GetUserId } from './getUserId.decorator';
 import { ReportMovementArgs } from './input/reportMovementArgs';
+import { UpdateMyProfileArgs } from './input/updateProfileArgs';
 
 @Resolver(User)
 export class UserResolver {
@@ -44,6 +45,7 @@ export class UserResolver {
   async getProfile(@GetUserId() userId: string): Promise<User> {
     return this.userService.getProfile(userId);
   }
+
   @Query(() => User)
   @UseGuards(AuthGuard)
   async toggleDrivingMode(@GetUserId() userId: string): Promise<User> {
@@ -57,5 +59,20 @@ export class UserResolver {
     @Args() { lat, lng, orientation }: ReportMovementArgs,
   ): Promise<User> {
     return this.userService.reportMovement(userId, lat, lng, orientation);
+  }
+
+  @Query(() => [User])
+  @UseGuards(AuthGuard)
+  async getNearbeDrivers(@GetUserId() userId: string): Promise<User[]> {
+    return this.userService.getNearbyDrivers(userId);
+  }
+
+  @Mutation(() => User)
+  async updateProfile(
+    @Args()
+    updateProfileArgs: UpdateMyProfileArgs,
+    @GetUserId() userId: string,
+  ): Promise<User> {
+    return this.userService.updateProfile(userId, updateProfileArgs);
   }
 }

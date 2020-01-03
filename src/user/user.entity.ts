@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  BaseEntity,
+} from 'typeorm';
 import Chat from './../chat/chat.entity';
 import Message from './../message/message.entity';
 import { ObjectType, Field } from 'type-graphql';
@@ -12,18 +18,19 @@ export class User {
   id: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   email: string;
 
+  // @Field()
   @Column()
   password: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   firstName: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
   @Field()
@@ -33,6 +40,10 @@ export class User {
   @Field()
   @Column({ nullable: true })
   fbId: string;
+
+  @Field()
+  @Column({ nullable: true })
+  age: number;
 
   // to change default to false in prod
   @Field()
