@@ -48,5 +48,10 @@ export class PlaceResolver {
     return this.placeService.editPlace(placeId, name, isFav);
     // could be combined with ...
   }
+  @Mutation(() => Boolean)
+  @UseGuards(AuthGuard)
+  async deletePlace(@Args('id') placeId: number): Promise<Boolean> {
+    return this.placeService.deletePlace(placeId);
+  }
 }
 // input to refactor

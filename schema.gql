@@ -21,6 +21,7 @@ type Mutation {
   reportMovenet(lat: Float!, lng: Float!, orientation: Float!): User!
   createPlace(name: String!, lat: Float!, lng: Float!, address: String!): Boolean!
   editPlace(placeId: Float!, name: String!, isFav: Boolean!): Place!
+  deletePlace(id: Float!): Boolean!
 }
 
 type Place {

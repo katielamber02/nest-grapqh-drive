@@ -51,4 +51,12 @@ export class PlaceService {
     // NOT FINISHED
     return place;
   }
+  async deletePlace(placeId: number): Promise<Boolean> {
+    try {
+      await this.placeRepo.delete({ id: placeId });
+    } catch (err) {
+      return false;
+    }
+    return true;
+  }
 }
