@@ -18,7 +18,9 @@ type Mutation {
   signup(signupInput: SignupInput!): [ErrorResponse!]
   login(loginInput: LoginInput!): [ErrorResponse!]
   logout: Boolean!
+  reportMovenet(lat: Float!, lng: Float!, orientation: Float!): User!
   createPlace(name: String!, lat: Float!, lng: Float!, address: String!): Boolean!
+  editPlace(placeId: Float!): Place!
 }
 
 type Place {
@@ -34,6 +36,7 @@ type Place {
 type Query {
   hello: String!
   getProfile: User!
+  toggleDrivingMode: User!
   myPlaces: [Place!]!
 }
 
@@ -53,4 +56,10 @@ type User {
   profilePhoto: String!
   fbId: String!
   confirmed: Boolean!
+  isDriving: Boolean!
+  isRiding: Boolean!
+  isTaken: Boolean!
+  lastLng: Float!
+  lastLat: Float!
+  lastOrientation: Float!
 }

@@ -37,5 +37,15 @@ export class PlaceResolver {
   async myPlaces(@GetUserId() userId: string): Promise<Place[]> {
     return this.placeService.myPlaces(userId);
   }
+
+  @Mutation(() => Place)
+  @UseGuards(AuthGuard)
+  async editPlace(
+    // @GetUserId() userId: string,
+    @Args('placeId') placeId: number,
+  ): Promise<Place> {
+    return this.placeService.editPlace(placeId);
+    // could be combined with ...
+  }
 }
 // input to refactor

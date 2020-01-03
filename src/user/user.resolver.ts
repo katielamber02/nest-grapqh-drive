@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from './aurh.guard';
 import { GetUserId } from './getUserId.decorator';
+import { ReportMovementArgs } from './input/reportMovementArgs';
 
 @Resolver(User)
 export class UserResolver {
@@ -42,5 +43,19 @@ export class UserResolver {
   @UseGuards(AuthGuard)
   async getProfile(@GetUserId() userId: string): Promise<User> {
     return this.userService.getProfile(userId);
+  }
+  @Query(() => User)
+  @UseGuards(AuthGuard)
+  async toggleDrivingMode(@GetUserId() userId: string): Promise<User> {
+    return this.userService.toggleDrivingMode(userId);
+  }
+
+  @Mutation(() => User)
+  @UseGuards(AuthGuard)
+  async reportMovenet(
+    @GetUserId() userId: string,
+    @Args() { lat, lng, orientation }: ReportMovementArgs,
+  ): Promise<User> {
+    return this.userService.reportMovement(userId, lat, lng, orientation);
   }
 }

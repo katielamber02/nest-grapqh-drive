@@ -24,13 +24,23 @@ export class PlaceService {
       lng,
       address,
     });
-    console.log('PLACE:', place);
+    // console.log('PLACE:', place);
     return true;
   }
 
   async myPlaces(userId: string): Promise<Place[]> {
     const places = await this.placeRepo.find({ where: { userId } });
-    console.log(places);
+    // console.log(places);
     return places;
+  }
+
+  async editPlace(placeId: number): Promise<Place> {
+    const place = await this.placeRepo.findOne({
+      where: { id: placeId },
+      relations: ['user'],
+    });
+    console.log('EDIT PLACE:', place);
+
+    return place;
   }
 }

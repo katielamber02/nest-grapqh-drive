@@ -89,4 +89,28 @@ export class UserService {
 
     return user;
   }
+
+  // refactoring possible via enum status
+  async toggleDrivingMode(userId: string): Promise<User> {
+    // console.log('MY ID:', userId);
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+    });
+    user.isDriving = !user.isDriving;
+    await this.userRepo.save(user);
+    console.log('User from toggleMode:', user);
+
+    return user;
+  }
+  async reportMovement(userId: string, lat, lng, orientation): Promise<User> {
+    const user = await this.userRepo.findOne({
+      where: { id: userId },
+    });
+    user.lastLat = lat;
+    user.lastLng = lng;
+    user.lastOrientation = orientation;
+
+    await this.userRepo.save(user);
+    return user;
+  }
 }

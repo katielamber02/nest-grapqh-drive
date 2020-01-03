@@ -39,6 +39,30 @@ export class User {
   @Column({ default: true })
   confirmed: boolean;
 
+  @Field()
+  @Column({ type: 'boolean', default: false })
+  isDriving: boolean;
+
+  @Field()
+  @Column({ type: 'boolean', default: false })
+  isRiding: boolean;
+
+  @Field()
+  @Column({ type: 'boolean', default: false })
+  isTaken: boolean;
+
+  @Field()
+  @Column({ type: 'double precision', default: 0 })
+  lastLng: number;
+
+  @Field()
+  @Column({ type: 'double precision', default: 0 })
+  lastLat: number;
+
+  @Field()
+  @Column({ type: 'double precision', default: 0 })
+  lastOrientation: number;
+
   @OneToMany(
     () => Chat,
     chat => chat.passenger,
