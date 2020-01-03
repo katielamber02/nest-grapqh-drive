@@ -34,13 +34,21 @@ export class PlaceService {
     return places;
   }
 
-  async editPlace(placeId: number): Promise<Place> {
+  async editPlace(
+    placeId: number,
+    name: string,
+    isFav: boolean,
+  ): Promise<Place> {
     const place = await this.placeRepo.findOne({
       where: { id: placeId },
-      relations: ['user'],
+      // relations: ['user'],  // we can avoid getting the whole User entity by adding additional field
+      // into Place entity: userId . So we will get only userId property and not the User
     });
+    place.name = name;
+    place.isFav = isFav;
+    await this.placeRepo.save(place);
     console.log('EDIT PLACE:', place);
-
+    // NOT FINISHED
     return place;
   }
 }

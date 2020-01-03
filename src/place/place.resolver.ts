@@ -18,6 +18,7 @@ import Place from './place.entity';
 import { AuthGuard } from './../user/aurh.guard';
 import { GetUserId } from './../user/getUserId.decorator';
 import { CreatePlaceArgs } from './args/createPlaceArgsType';
+import { EditPlaceArgs } from './args/editPlaceArgs';
 
 @Resolver(() => Place)
 export class PlaceResolver {
@@ -42,9 +43,9 @@ export class PlaceResolver {
   @UseGuards(AuthGuard)
   async editPlace(
     // @GetUserId() userId: string,
-    @Args('placeId') placeId: number,
+    @Args() { placeId, name, isFav }: EditPlaceArgs,
   ): Promise<Place> {
-    return this.placeService.editPlace(placeId);
+    return this.placeService.editPlace(placeId, name, isFav);
     // could be combined with ...
   }
 }

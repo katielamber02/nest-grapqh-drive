@@ -20,7 +20,7 @@ type Mutation {
   logout: Boolean!
   reportMovenet(lat: Float!, lng: Float!, orientation: Float!): User!
   createPlace(name: String!, lat: Float!, lng: Float!, address: String!): Boolean!
-  editPlace(placeId: Float!): Place!
+  editPlace(placeId: Float!, name: String!, isFav: Boolean!): Place!
 }
 
 type Place {

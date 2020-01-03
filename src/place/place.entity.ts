@@ -38,7 +38,7 @@ class Place extends BaseEntity {
   isFav: boolean;
 
   @Field()
-  @Column()
+  @Column({ type: 'int', nullable: true })
   userId: string;
 
   @ManyToOne(
